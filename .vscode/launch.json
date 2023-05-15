@@ -10,7 +10,11 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "env": {
+                "DKU_CURRENT_PROJECT_KEY": "COMPANY_RECONCILIATION",
+                "ORIGINAL_DATASET": "matches_uncertain"
+            },
         },
         {
             "name": "Dash",
@@ -19,7 +23,9 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
-                "FLASK_DEBUG": "1"
+                "FLASK_DEBUG": "1",
+                "DKU_CURRENT_PROJECT_KEY": "COMPANY_RECONCILIATION",
+                "ORIGINAL_DATASET": "matches_uncertain"
             },
             "args": [
                 "run",

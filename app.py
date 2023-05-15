@@ -3,8 +3,12 @@ from dash import Dash, html, Input, Output
 import dash_ag_grid as dag
 import pandas as pd
 
-# TODO: get from Dataiku dataset
-df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/solar.csv")
+# df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/solar.csv")
+from os import getenv
+from dataiku import Dataset
+original_ds_name = getenv("ORIGINAL_DATASET")
+original_ds = Dataset(original_ds_name)
+df = original_ds.get_dataframe()
 
 server = Flask(__name__)
 app = Dash(__name__, server=server)

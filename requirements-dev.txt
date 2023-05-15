@@ -1,4 +1,6 @@
+# $DKU_DSS_URL/public/packages/dataiku-internal-client.tar.gz
+dataiku-api-client
+numpy < 1.24
 dash
 dash-ag-grid
 pandas
-$DKU_DSS_URL/public/packages/dataiku-internal-client.tar.gz

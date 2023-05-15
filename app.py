@@ -1,10 +1,14 @@
+from flask import Flask
 from dash import Dash, html, Input, Output
 import dash_ag_grid as dag
 import pandas as pd
 
+# TODO: get from Dataiku dataset
 df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/solar.csv")
 
-app = Dash(__name__)
+server = Flask(__name__)
+app = Dash(__name__, server=server)
+app.enable_dev_tools(debug=True, dev_tools_ui=True)
 
 grid = dag.AgGrid(
     id="quickstart-grid",

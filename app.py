@@ -3,13 +3,18 @@ from dash import Dash, html, Input, Output
 import dash_ag_grid as dag
 from dataiku import use_plugin_libs, import_from_plugin
 
-original_ds_name = "matches_uncertain"
-primary_keys = ["id"]
-editable_column_names = ["ext_id", "reviewed", "comments"]
+PROJECT_KEY = "COMPANY_RECONCILIATION"
+ORIGINAL_DS_NAME = "matches_uncertain"
+PRIMARY_KEYS = ["id"]
+EDITABLE_COLUMN_NAMES = ["ext_id", "reviewed", "comments"]
 
 use_plugin_libs("editable-via-webapp")
 EditableEventSourced = import_from_plugin("editable-via-webapp", "EditableEventSourced")
-ees = EditableEventSourced.EditableEventSourced(original_ds_name, primary_keys, editable_column_names)
+ees = EditableEventSourced.EditableEventSourced(
+    original_ds_name=ORIGINAL_DS_NAME,
+    primary_keys=PRIMARY_KEYS,
+    editable_column_names=EDITABLE_COLUMN_NAMES,
+    project_key=PROJECT_KEY)
 df = ees.get_edited_df()
 
 # original_ds = Dataset(original_ds_name)
@@ -24,7 +29,7 @@ grid = dag.AgGrid(
     id="quickstart-grid",
     rowData=df.to_dict("records"),
     columnDefs=[{"field": i} for i in df.columns],
-    defaultColDef={"editable": True, "resizable": True, "sortable": True, "filter": True, "minWidth":125},
+    defaultColDef={"editable": True, "resizable": True, "sortable": True, "filter": True, "minWidth": 125},
     columnSize="sizeToFit",
 )
 

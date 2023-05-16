@@ -1,14 +1,20 @@
 from flask import Flask
 from dash import Dash, html, Input, Output
 import dash_ag_grid as dag
-import pandas as pd
+from dataiku import use_plugin_libs, import_from_plugin
 
+original_ds_name = "matches_uncertain"
+primary_keys = ["id"]
+editable_column_names = ["ext_id", "reviewed", "comments"]
+
+use_plugin_libs("editable-via-webapp")
+EditableEventSourced = import_from_plugin("editable-via-webapp", "EditableEventSourced")
+ees = EditableEventSourced.EditableEventSourced(original_ds_name, primary_keys, editable_column_names)
+df = ees.get_edited_df()
+
+# original_ds = Dataset(original_ds_name)
+# df = original_ds.get_dataframe()
 # df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/solar.csv")
-from os import getenv
-from dataiku import Dataset
-original_ds_name = getenv("ORIGINAL_DATASET")
-original_ds = Dataset(original_ds_name)
-df = original_ds.get_dataframe()
 
 server = Flask(__name__)
 app = Dash(__name__, server=server)

@@ -37,12 +37,13 @@ app.layout = html.Div([grid, html.Div(id="quickstart-output")])
 
 
 @app.callback(
-    Output("quickstart-output", "children"), Input("quickstart-grid", "cellClicked")
+    Output("quickstart-output", "children"),
+    Input("quickstart-grid", "cellValueChanged"),
+    prevent_initial_call=True
 )
-def display_cell_clicked_on(cell):
-    if cell is None:
-        return "Click on a cell"
-    return f"clicked on cell value:  {cell['value']}, column:   {cell['colId']}, row index:   {cell['rowIndex']}"
+def log_edit(cell):
+    """Record edit in editlog, once a cell has been edited"""
+    return ees.update_row(cell["data"], cell["colId"], cell["newValue"])
 
 
 if __name__ == "__main__":

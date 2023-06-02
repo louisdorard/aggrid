@@ -1,7 +1,7 @@
 from flask import Flask
 from dash import Dash, html, Input, Output
 import dash_ag_grid as dag
-from dataiku import use_plugin_libs, import_from_plugin
+from dataiku import use_plugin_libs, import_from_plugin, Dataset
 
 PROJECT_KEY = "COMPANY_RECONCILIATION"
 ORIGINAL_DS_NAME = "matches_uncertain"
@@ -17,8 +17,9 @@ ees = EditableEventSourced.EditableEventSourced(
     project_key=PROJECT_KEY)
 df = ees.get_edited_df()
 
-# original_ds = Dataset(original_ds_name)
+# original_ds = Dataset(ORIGINAL_DS_NAME)
 # df = original_ds.get_dataframe()
+
 # df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/solar.csv")
 
 server = Flask(__name__)
@@ -43,7 +44,7 @@ app.layout = html.Div([grid, html.Div(id="quickstart-output")])
 )
 def log_edit(cell):
     """Record edit in editlog, once a cell has been edited"""
-    return ees.update_row(cell["data"], cell["colId"], cell["newValue"])
+    return ees.update_row(cell["data"], cell["colId"], cell["value"])
 
 
 if __name__ == "__main__":
